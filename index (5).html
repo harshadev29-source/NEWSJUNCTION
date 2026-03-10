@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ನ್ಯೂಸ್ ಜಂಕ್ಷನ್ | News Junction – AI Real-Time News</title>
+<meta name="description" content="ನ್ಯೂಸ್ ಜಂಕ್ಷನ್ - Live AI-powered Kannada & English breaking news, updated every hour.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@400;600;700;900&family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --saffron:#E8500A;--deep:#1A0A2E;--gold:#F5A623;--emerald:#00875A;
+  --sky:#0066CC;--paper:#F8F5EF;--white:#fff;--ink:#111;--muted:#6E6E6E;
+  --border:#E2DDD5;--red:#C0392B;--live:#FF3B30;
+}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:'DM Sans','Noto Sans Kannada',sans-serif;background:var(--paper);color:var(--ink);overflow-x:hidden}
+
+/* TICKER */
+.ticker-bar{background:var(--red);color:#fff;height:36px;display:flex;align-items:center;overflow:hidden;font-size:13px;font-weight:600}
+.ticker-tag{background:#000;padding:0 16px;height:100%;display:flex;align-items:center;gap:7px;white-space:nowrap;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;flex-shrink:0;border-right:2px solid var(--gold)}
+.pd{width:8px;height:8px;background:var(--live);border-radius:50%;animation:blink 1s infinite;flex-shrink:0}
+@keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.6)}}
+.ticker-track{overflow:hidden;flex:1}
+.ticker-inner{display:inline-flex;gap:70px;animation:scroll 60s linear infinite;white-space:nowrap;padding-left:24px}
+.ticker-inner:hover{animation-play-state:paused}
+.ti::before{content:"▶ ";opacity:.5}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* HEADER */
+header{background:var(--deep);position:sticky;top:0;z-index:300;border-bottom:3px solid var(--saffron);box-shadow:0 4px 24px rgba(0,0,0,.35)}
+.hd{max-width:1440px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:66px;gap:12px}
+.logo{display:flex;align-items:center;gap:11px}
+.logo-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--saffron),var(--gold));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 0 18px rgba(232,80,10,.5)}
+.logo-name{font-family:'Playfair Display',serif;font-size:21px;font-weight:900;background:linear-gradient(90deg,#fff,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo-sub{font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase}
+.hmeta{display:flex;align-items:center;gap:14px}
+.livebadge{background:var(--live);color:#fff;font-size:10px;font-weight:700;letter-spacing:2px;padding:4px 10px;border-radius:20px;display:flex;align-items:center;gap:5px;animation:glow 2s ease-in-out infinite}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(255,59,48,.4)}50%{box-shadow:0 0 0 7px rgba(255,59,48,0)}}
+.clk{font-size:12px;color:rgba(255,255,255,.55);font-variant-numeric:tabular-nums}
+.ltog{display:flex;background:rgba(255,255,255,.1);border-radius:20px;overflow:hidden}
+.lbtn{padding:5px 13px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:none;color:rgba(255,255,255,.55);font-family:'DM Sans',sans-serif;transition:all .2s}
+.lbtn.on{background:var(--saffron);color:#fff;border-radius:20px}
+.mnav{background:var(--deep);border-top:1px solid rgba(255,255,255,.07)}
+.navinner{max-width:1440px;margin:0 auto;padding:0 20px;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.navinner::-webkit-scrollbar{display:none}
+.navlink{padding:9px 16px;font-size:13px;font-weight:600;color:rgba(255,255,255,.6);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;display:flex;align-items:center;gap:5px;text-decoration:none;transition:all .2s;font-family:'Noto Sans Kannada','DM Sans',sans-serif}
+.navlink:hover{color:#fff}.navlink.on{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* UTILITY STRIP */
+.ustrip{background:#fff;border-bottom:2px solid var(--border);overflow-x:auto;scrollbar-width:none}
+.ustrip::-webkit-scrollbar{display:none}
+.uinner{max-width:1440px;margin:0 auto;padding:0 20px;display:flex;align-items:stretch;height:52px}
+.ucard{display:flex;align-items:center;gap:9px;padding:0 18px;border-right:1px solid var(--border);min-width:max-content}
+.uico{font-size:18px}
+.ulbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;font-weight:600;display:block}
+.uval{font-size:14px;font-weight:700;color:var(--ink);letter-spacing:-.2px}
+.uchg{font-size:11px;font-weight:600}
+.up{color:var(--emerald)}.dn{color:var(--red)}
+
+/* LAYOUT */
+.wrap{max-width:1440px;margin:0 auto;padding:24px 20px;display:grid;grid-template-columns:1fr 340px;gap:26px}
+@media(max-width:960px){.wrap{grid-template-columns:1fr}}
+
+/* SECTION HEADER */
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--border)}
+.stitle{font-family:'Playfair Display',serif;font-size:21px;font-weight:900;display:flex;align-items:center;gap:9px}
+.stitle::before{content:'';width:5px;height:26px;background:var(--saffron);border-radius:3px;flex-shrink:0}
+.va{font-size:12px;font-weight:600;color:var(--sky);cursor:pointer}
+
+/* HERO GRID */
+.hgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px}
+.hcard{background:#fff;border-radius:14px;overflow:hidden;cursor:pointer;transition:transform .25s,box-shadow .25s;box-shadow:0 2px 10px rgba(0,0,0,.07);border:1px solid var(--border)}
+.hcard:hover{transform:translateY(-4px);box-shadow:0 14px 32px rgba(0,0,0,.13)}
+.hcard.main{grid-column:1/-1}
+.himg{width:100%;height:200px;display:flex;align-items:center;justify-content:center;font-size:56px;position:relative}
+.hcard.main .himg{height:300px;font-size:80px}
+.hbody{padding:16px}
+.ctag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;padding:3px 9px;border-radius:20px;margin-bottom:8px}
+.c-pol{background:rgba(192,57,43,.12);color:#C0392B}
+.c-tec{background:rgba(0,102,204,.12);color:#0066CC}
+.c-spo{background:rgba(0,135,90,.12);color:#00875A}
+.c-ent{background:rgba(142,68,173,.12);color:#8E44AD}
+.c-bus{background:rgba(245,166,35,.18);color:#B8860B}
+.c-vir{background:rgba(232,80,10,.12);color:var(--saffron)}
+.c-wor{background:rgba(0,102,204,.1);color:#0066CC}
+.htitle{font-family:'Noto Sans Kannada','DM Sans',sans-serif;font-size:16px;font-weight:700;line-height:1.4;margin-bottom:9px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.hcard.main .htitle{font-size:20px;-webkit-line-clamp:2}
+.hsum{font-size:13px;color:var(--muted);line-height:1.65;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:11px}
+.hfooter{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--muted)}
+.wabtn{background:#25D366;color:#fff;border:none;padding:5px 11px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px}
+.aibtn{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--sky);background:rgba(0,102,204,.08);padding:3px 9px;border-radius:20px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
+
+/* NEWS LIST */
+.nlist{display:flex;flex-direction:column;gap:12px}
+.nitem{background:#fff;border-radius:12px;padding:14px;display:grid;grid-template-columns:76px 1fr;gap:12px;cursor:pointer;transition:transform .2s,box-shadow .2s;border:1px solid var(--border)}
+.nitem:hover{transform:translateX(4px);box-shadow:0 6px 20px rgba(0,0,0,.1);border-color:var(--saffron)}
+.nthumb{width:76px;height:76px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0}
+.ntitle{font-size:13px;font-weight:600;line-height:1.45;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-family:'Noto Sans Kannada',sans-serif}
+.nmeta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ntime{font-size:11px;color:var(--muted)}
+
+/* SKELETON */
+.skel{background:linear-gradient(90deg,#eee 25%,#f8f8f8 50%,#eee 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:6px;display:block}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* GRID CARDS */
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:700px){.cgrid{grid-template-columns:1fr 1fr}.hgrid{grid-template-columns:1fr}}
+.ccard{background:#fff;border-radius:12px;overflow:hidden;cursor:pointer;border:1px solid var(--border);transition:transform .25s,box-shadow .25s}
+.ccard:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,.12)}
+.cimg{height:120px;display:flex;align-items:center;justify-content:center;font-size:44px}
+.cbody{padding:12px}
+.ctxt{font-size:13px;font-weight:600;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-family:'Noto Sans Kannada',sans-serif}
+
+/* TABS */
+.tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.tabbtn{padding:6px 15px;border-radius:20px;border:1.5px solid var(--border);background:#fff;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
+.tabBtn.on,.tabBtn.active,.tabbtn-active{background:var(--deep);color:#fff;border-color:var(--deep)}
+
+/* WIDGET */
+.widget{background:#fff;border-radius:14px;padding:18px;margin-bottom:18px;box-shadow:0 2px 10px rgba(0,0,0,.06);border:1px solid var(--border)}
+.wtitle{font-size:13px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pbox{background:var(--paper);border-radius:10px;padding:10px;text-align:center;border:1px solid var(--border)}
+.pmetal{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.7px}
+.pprice{font-size:19px;font-weight:800;margin:3px 0;letter-spacing:-.5px}
+.pgold{color:#B8860B}.psilv{color:#708090}
+.psub{font-size:10px;color:var(--muted)}
+.fuelrow{display:flex;align-items:center;justify-content:space-between;background:var(--paper);padding:9px 13px;border-radius:8px;margin-bottom:6px}
+.fuelname{font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px}
+.fuelcity{font-size:10px;color:var(--muted)}
+.fuelprice{font-size:17px;font-weight:800}
+.stkrow{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)}
+.stkrow:last-child{border-bottom:none}
+.stkname{font-size:13px;font-weight:600}
+.stkval{font-size:13px;font-weight:700}
+.trtags{display:flex;flex-wrap:wrap;gap:7px}
+.trtag{background:var(--paper);border:1px solid var(--border);border-radius:20px;padding:5px 13px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+.trtag:hover{background:var(--saffron);color:#fff;border-color:var(--saffron)}
+.jobitem{background:var(--paper);border-radius:9px;padding:11px;cursor:pointer;margin-bottom:7px;border-left:3px solid transparent;transition:all .2s}
+.jobitem:hover{background:rgba(0,102,204,.06);border-left-color:var(--sky)}
+.jobtitle{font-size:13px;font-weight:600;margin-bottom:3px}
+.jobsub{font-size:11px;color:var(--muted)}
+.jobtags{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap}
+.jtag{font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;background:rgba(0,102,204,.1);color:var(--sky)}
+.jtag.g{background:rgba(0,135,90,.1);color:var(--emerald)}
+.jtag.w{background:rgba(142,68,173,.1);color:#8E44AD}
+.wrow{display:flex;align-items:center;gap:14px;margin-bottom:11px}
+.wico{font-size:48px}
+.wtemp{font-size:40px;font-weight:800;letter-spacing:-2px}
+.wdet{font-size:12px;color:var(--muted);line-height:1.8}
+.wstats{display:flex;gap:12px}
+.wstat{flex:1;text-align:center;background:var(--paper);border-radius:8px;padding:7px}
+.wslab{font-size:10px;color:var(--muted);text-transform:uppercase}
+.wsval{font-size:13px;font-weight:700}
+.t10list{display:flex;flex-direction:column;gap:6px}
+.t10item{display:flex;align-items:flex-start;gap:11px;padding:7px;border-radius:8px;cursor:pointer;transition:background .2s}
+.t10item:hover{background:var(--paper)}
+.t10num{font-size:20px;font-weight:900;font-family:'Playfair Display',serif;color:var(--border);min-width:28px;line-height:1}
+.t10txt{font-size:13px;font-weight:600;line-height:1.4}
+
+/* MODAL */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:1000;display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
+.modal.open{display:flex}
+.mbox{background:#fff;border-radius:18px;max-width:580px;width:100%;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.3);animation:mpin .3s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes mpin{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+.mhead{background:var(--deep);color:#fff;padding:18px 22px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.mhead h3{font-size:14px;font-weight:700;font-family:'Noto Sans Kannada',sans-serif;flex:1;line-height:1.4}
+.mcls{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;opacity:.6;flex-shrink:0}
+.mcls:hover{opacity:1}
+.mbody{padding:22px}
+.aibadge{display:inline-flex;align-items:center;gap:5px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:11px;font-weight:700;padding:3px 11px;border-radius:20px;margin-bottom:12px;letter-spacing:.8px}
+.msum{font-size:14px;line-height:1.85;color:var(--ink);margin-bottom:14px;font-family:'Noto Sans Kannada',sans-serif}
+.msimple{background:#f0f7ff;border-left:4px solid var(--sky);padding:12px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;color:#1a1a4e;font-family:'Noto Sans Kannada',sans-serif}
+.msimple strong{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--sky);margin-bottom:5px}
+.mactions{display:flex;gap:9px;margin-top:14px;flex-wrap:wrap}
+.bwa{background:#25D366;color:#fff;border:none;padding:9px 16px;border-radius:8px;font-weight:600;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:5px}
+.bcls{background:var(--deep);color:#fff;border:none;padding:9px 16px;border-radius:8px;font-weight:600;font-size:12px;cursor:pointer}
+.dots{display:inline-flex;gap:4px;align-items:center}
+.dots span{width:7px;height:7px;background:var(--sky);border-radius:50%;animation:db .8s infinite}
+.dots span:nth-child(2){animation-delay:.15s}.dots span:nth-child(3){animation-delay:.3s}
+@keyframes db{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-7px)}}
+
+/* LOADING SCREEN */
+.loadscreen{position:fixed;inset:0;background:var(--deep);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .6s}
+.loadscreen.done{opacity:0;pointer-events:none}
+.loadlogo{font-size:48px;animation:bounce .8s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.loadtxt{color:#fff;font-family:'Playfair Display',serif;font-size:26px;font-weight:900}
+.loadsub{color:rgba(255,255,255,.5);font-size:13px;letter-spacing:2px;text-transform:uppercase}
+.loadbar{width:260px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden}
+.loadfill{height:100%;background:linear-gradient(90deg,var(--saffron),var(--gold));border-radius:2px;animation:fill 3s ease-in-out forwards}
+@keyframes fill{0%{width:0%}100%{width:95%}}
+.loadmsg{color:rgba(255,255,255,.5);font-size:12px;text-align:center}
+
+/* VOICE BTN */
+.voicebtn{position:fixed;bottom:22px;right:22px;z-index:500;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--saffron),var(--gold));border:none;cursor:pointer;font-size:22px;box-shadow:0 5px 18px rgba(232,80,10,.4);animation:float 3s ease-in-out infinite;display:flex;align-items:center;justify-content:center}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+
+/* AD SLOTS */
+.adsl{background:#f5f5f5;border:1px dashed #ccc;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#aaa;font-size:12px;letter-spacing:1px;text-transform:uppercase;margin:14px 0}
+.adsl.ban{height:88px}.adsl.sq{height:240px}
+
+/* REFRESH BADGE */
+.rfbadge{display:inline-flex;align-items:center;gap:5px;background:rgba(0,135,90,.1);color:var(--emerald);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;cursor:pointer}
+.rfbadge:hover{background:rgba(0,135,90,.2)}
+
+footer{background:var(--deep);color:rgba(255,255,255,.65);padding:36px 20px 20px;margin-top:36px}
+.footer-inner{max-width:1440px;margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:28px;margin-bottom:28px}
+@media(max-width:768px){.footer-grid{grid-template-columns:1fr 1fr}}
+.footer-logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:#fff}
+.footer-desc{font-size:12px;line-height:1.7;margin-top:8px;color:rgba(255,255,255,.45)}
+.footer-col-title{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.flinks{list-style:none;display:flex;flex-direction:column;gap:7px}
+.flinks li{font-size:12px;cursor:pointer;transition:color .2s}.flinks li:hover{color:#fff}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;font-size:11px}
+
+@media(max-width:600px){.hd{height:56px}.logo-name{font-size:17px}.wrap{padding:14px 12px}}
+</style>
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div class="loadscreen" id="loadScreen">
+  <div class="loadlogo">📰</div>
+  <div class="loadtxt">ನ್ಯೂಸ್ ಜಂಕ್ಷನ್</div>
+  <div class="loadsub">AI fetching today's real news...</div>
+  <div class="loadbar"><div class="loadfill"></div></div>
+  <div class="loadmsg" id="loadMsg">🤖 Scanning 100+ sources for latest news...</div>
+</div>
+
+<!-- BREAKING TICKER -->
+<div class="ticker-bar">
+  <div class="ticker-tag"><div class="pd"></div><span>LIVE</span></div>
+  <div class="ticker-track">
+    <div class="ticker-inner" id="tickerInner">
+      <span class="ti">AI ಸುದ್ದಿ ಲೋಡ್ ಆಗುತ್ತಿದೆ...</span>
+      <span class="ti">Loading real-time news...</span>
+      <span class="ti">AI ಸುದ್ದಿ ಲೋಡ್ ಆಗುತ್ತಿದೆ...</span>
+      <span class="ti">Loading real-time news...</span>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="hd">
+    <div class="logo">
+      <div class="logo-icon">📰</div>
+      <div>
+        <div class="logo-name">ನ್ಯೂಸ್ ಜಂಕ್ಷನ್</div>
+        <div class="logo-sub">AI Powered · Live News · ಕನ್ನಡ & English</div>
+      </div>
+    </div>
+    <div class="hmeta">
+      <div class="livebadge"><div class="pd"></div> LIVE</div>
+      <div class="clk" id="clk">--:-- --</div>
+      <div class="ltog">
+        <button class="lbtn on" onclick="setLang('kn',this)">ಕನ್ನಡ</button>
+        <button class="lbtn" onclick="setLang('en',this)">EN</button>
+      </div>
+    </div>
+  </div>
+  <nav class="mnav">
+    <div class="navinner" id="navInner">
+      <a class="navlink on" onclick="filterCat('all',this)">🏠 ಮನೆ</a>
+      <a class="navlink" onclick="filterCat('India',this)">🇮🇳 India</a>
+      <a class="navlink" onclick="filterCat('Karnataka',this)">🏴 Karnataka</a>
+      <a class="navlink" onclick="filterCat('Technology',this)">📱 Tech</a>
+      <a class="navlink" onclick="filterCat('Sports',this)">🏏 Sports</a>
+      <a class="navlink" onclick="filterCat('Entertainment',this)">🎬 Cinema</a>
+      <a class="navlink" onclick="filterCat('Business',this)">💼 Business</a>
+      <a class="navlink" onclick="filterCat('World',this)">🌍 World</a>
+      <a class="navlink" href="#jobs-w">💼 Jobs</a>
+      <a class="navlink" href="#top10-s">🏆 Top 10</a>
+    </div>
+  </nav>
+</header>
+
+<!-- UTILITY STRIP -->
+<div class="ustrip">
+  <div class="uinner">
+    <div class="ucard"><span class="uico">🥇</span><div><span class="ulbl">Gold 10g</span><span class="uval" id="ugold">Loading...</span></div></div>
+    <div class="ucard"><span class="uico">🥈</span><div><span class="ulbl">Silver 1kg</span><span class="uval" id="usilv">Loading...</span></div></div>
+    <div class="ucard"><span class="uico">⛽</span><div><span class="ulbl">Petrol BLR</span><span class="uval" id="upetrol">Loading...</span></div></div>
+    <div class="ucard"><span class="uico">🛢️</span><div><span class="ulbl">Diesel BLR</span><span class="uval" id="udiesel">Loading...</span></div></div>
+    <div class="ucard"><span class="uico">📈</span><div><span class="ulbl">Sensex</span><span class="uval" id="usensex">Loading...</span></div></div>
+    <div class="ucard"><span class="uico">📊</span><div><span class="ulbl">Nifty 50</span><span class="uval" id="unifty">Loading...</span></div></div>
+    <div class="ucard"><span class="uico">🌤️</span><div><span class="ulbl">Bengaluru</span><span class="uval" id="uweather">Loading...</span></div></div>
+    <div class="ucard"><span class="uico">💵</span><div><span class="ulbl">USD/INR</span><span class="uval" id="uusd">Loading...</span></div></div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="wrap">
+  <main>
+    <div class="adsl ban">📢 Google AdSense – 728×90 Banner Ad</div>
+
+    <!-- HERO -->
+    <div class="sh">
+      <h2 class="stitle" id="heroLabel">ಇಂದಿನ ಪ್ರಮುಖ ಸುದ್ದಿ</h2>
+      <span class="rfbadge" onclick="refreshNews()">🔄 <span id="lastUpdated">ಅಪ್‌ಡೇಟ್ ಆಗುತ್ತಿದೆ...</span></span>
+    </div>
+    <div class="hgrid" id="heroGrid">
+      <!-- skeleton -->
+      <div class="hcard main"><div class="himg" style="background:#eee"><span class="skel" style="width:80px;height:80px;border-radius:50%"></span></div><div class="hbody"><span class="skel" style="width:80px;height:18px;margin-bottom:10px"></span><div class="skel" style="height:24px;margin-bottom:8px"></div><div class="skel" style="height:14px;margin-bottom:5px"></div><div class="skel" style="height:14px;width:70%"></div></div></div>
+      <div class="hcard"><div class="himg" style="background:#f0f0f0"></div><div class="hbody"><div class="skel" style="height:16px;margin-bottom:8px"></div><div class="skel" style="height:12px;width:60%"></div></div></div>
+      <div class="hcard"><div class="himg" style="background:#f0f0f0"></div><div class="hbody"><div class="skel" style="height:16px;margin-bottom:8px"></div><div class="skel" style="height:12px;width:60%"></div></div></div>
+    </div>
+
+    <div class="adsl ban">📢 Google AdSense – 728×90 Banner Ad</div>
+
+    <!-- ALL NEWS -->
+    <div class="sh"><h2 class="stitle" id="allNewsLabel">ಎಲ್ಲ ಸುದ್ದಿ</h2><a class="va">ಇನ್ನಷ್ಟು →</a></div>
+    <div class="tabs" id="catTabs">
+      <button class="tabBtn tabbtn-active" onclick="filterTab('all',this)">ಎಲ್ಲ</button>
+      <button class="tabBtn" onclick="filterTab('India',this)">🇮🇳 India</button>
+      <button class="tabBtn" onclick="filterTab('Karnataka',this)">Karnataka</button>
+      <button class="tabBtn" onclick="filterTab('Technology',this)">Tech</button>
+      <button class="tabBtn" onclick="filterTab('Sports',this)">Sports</button>
+      <button class="tabBtn" onclick="filterTab('Entertainment',this)">Cinema</button>
+      <button class="tabBtn" onclick="filterTab('Business',this)">Business</button>
+    </div>
+    <div class="nlist" id="newsList">
+      <div class="skel" style="height:100px;border-radius:12px"></div>
+      <div class="skel" style="height:100px;border-radius:12px"></div>
+      <div class="skel" style="height:100px;border-radius:12px"></div>
+      <div class="skel" style="height:100px;border-radius:12px"></div>
+    </div>
+
+    <!-- CINEMA -->
+    <div style="margin-top:32px">
+      <div class="sh"><h2 class="stitle">🎬 ಸಿನಿಮಾ & OTT</h2><a class="va">ಇನ್ನಷ್ಟು →</a></div>
+      <div class="cgrid" id="entGrid"><div class="skel" style="height:180px;border-radius:12px"></div><div class="skel" style="height:180px;border-radius:12px"></div><div class="skel" style="height:180px;border-radius:12px"></div></div>
+    </div>
+
+    <!-- VIRAL -->
+    <div style="margin-top:32px">
+      <div class="sh"><h2 class="stitle">🔥 ವೈರಲ್ & ಟ್ರೆಂಡಿಂಗ್</h2><a class="va">ಇನ್ನಷ್ಟು →</a></div>
+      <div class="cgrid" id="viralGrid"><div class="skel" style="height:180px;border-radius:12px"></div><div class="skel" style="height:180px;border-radius:12px"></div><div class="skel" style="height:180px;border-radius:12px"></div></div>
+    </div>
+
+    <div class="adsl ban">📢 Google AdSense – 728×90 Banner Ad</div>
+
+    <!-- TOP 10 -->
+    <div id="top10-s" style="margin-top:32px">
+      <div class="sh"><h2 class="stitle">🏆 AI Top 10 – ಇಂದು</h2><span class="rfbadge">🤖 AI ಆರಿಸಿದ</span></div>
+      <div class="tabs" id="t10tabs">
+        <button class="tabBtn tabbtn-active" onclick="loadTop10('news',this)">📰 ಸುದ್ದಿ</button>
+        <button class="tabBtn" onclick="loadTop10('cricket',this)">🏏 Cricket</button>
+        <button class="tabBtn" onclick="loadTop10('movies',this)">🎬 Movies</button>
+        <button class="tabBtn" onclick="loadTop10('tech',this)">📱 Tech</button>
+        <button class="tabBtn" onclick="loadTop10('facts',this)">🌍 Facts</button>
+      </div>
+      <div class="widget" id="top10box" style="margin-bottom:0">
+        <div class="skel" style="height:300px"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- SIDEBAR -->
+  <aside>
+    <!-- WEATHER -->
+    <div class="widget">
+      <div class="wtitle">🌤️ ಹವಾಮಾನ – Bengaluru</div>
+      <div class="wrow"><div class="wico" id="wico">⛅</div><div><div class="wtemp" id="wtemp">--°</div><div class="wdet" id="wdet">Loading...</div></div></div>
+      <div class="wstats">
+        <div class="wstat"><div class="wslab">💧 Humidity</div><div class="wsval" id="whumid">--%</div></div>
+        <div class="wstat"><div class="wslab">💨 Wind</div><div class="wsval" id="wwind">-- km/h</div></div>
+        <div class="wstat"><div class="wslab">🌡️ High</div><div class="wsval" id="whigh">--°</div></div>
+      </div>
+    </div>
+
+    <!-- GOLD / SILVER -->
+    <div class="widget">
+      <div class="wtitle">💰 ಚಿನ್ನ & ಬೆಳ್ಳಿ ಬೆಲೆ</div>
+      <div class="pgrid" id="priceGrid">
+        <div class="skel" style="height:80px;border-radius:10px"></div>
+        <div class="skel" style="height:80px;border-radius:10px"></div>
+        <div class="skel" style="height:80px;border-radius:10px"></div>
+        <div class="skel" style="height:80px;border-radius:10px"></div>
+      </div>
+    </div>
+
+    <!-- PETROL -->
+    <div class="widget">
+      <div class="wtitle">⛽ ಇಂಧನ ಬೆಲೆ – ಇಂದು</div>
+      <div id="fuelBox"><div class="skel" style="height:120px;border-radius:8px"></div></div>
+    </div>
+
+    <div class="adsl sq">📢 AdSense 300×250</div>
+
+    <!-- MARKET -->
+    <div class="widget">
+      <div class="wtitle">📈 ಮಾರುಕಟ್ಟೆ</div>
+      <div class="stkrow"><span class="stkname">Sensex</span><span class="stkval up" id="ms1">--</span></div>
+      <div class="stkrow"><span class="stkname">Nifty 50</span><span class="stkval" id="ms2">--</span></div>
+      <div class="stkrow"><span class="stkname">Bank Nifty</span><span class="stkval up" id="ms3">--</span></div>
+      <div class="stkrow"><span class="stkname">USD/INR</span><span class="stkval" id="ms4">--</span></div>
+      <div class="stkrow"><span class="stkname">Crude Oil</span><span class="stkval dn" id="ms5">--</span></div>
+    </div>
+
+    <!-- TRENDING -->
+    <div class="widget">
+      <div class="wtitle">🔥 ಟ್ರೆಂಡಿಂಗ್ ಟಾಪಿಕ್ಸ್</div>
+      <div class="trtags" id="trendBox"><div class="skel" style="height:80px"></div></div>
+    </div>
+
+    <!-- JOBS -->
+    <div class="widget" id="jobs-w">
+      <div class="wtitle">💼 ಉದ್ಯೋಗ ಅಲರ್ಟ್</div>
+      <div id="jobsBox"><div class="skel" style="height:200px;border-radius:8px"></div></div>
+    </div>
+
+    <div class="adsl sq">📢 AdSense 300×250</div>
+  </aside>
+</div>
+
+<!-- VOICE BTN -->
+<button class="voicebtn" onclick="toggleVoice()" id="vbtn" title="ಧ್ವನಿ ಸುದ್ದಿ">🔊</button>
+
+<!-- MODAL -->
+<div class="modal" id="modal" onclick="closeModal(event)">
+  <div class="mbox">
+    <div class="mhead">
+      <h3 id="mTitle">AI ಸಾರಾಂಶ</h3>
+      <button class="mcls" onclick="closeModal()">✕</button>
+    </div>
+    <div class="mbody">
+      <div class="aibadge">🤖 AI Powered · Real-time Summary</div>
+      <div class="msum" id="mSum"><div class="dots"><span></span><span></span><span></span></div></div>
+      <div class="msimple" id="mSimple" style="display:none"><strong id="mSimLbl">📖 ಸರಳ ಭಾಷೆ</strong><span id="mSimTxt"></span></div>
+      <div class="mactions">
+        <button class="bwa" onclick="doShareWA()">📲 WhatsApp Share</button>
+        <button class="bcls" onclick="closeModal()">✕ ಮುಚ್ಚಿ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">ನ್ಯೂಸ್ ಜಂಕ್ಷನ್</div>
+        <div class="footer-desc">Karnataka's #1 AI-powered real-time news. Kannada & English. Powered by live web search. Updated every hour automatically.</div>
+      </div>
+      <div><div class="footer-col-title">ವಿಭಾಗ</div><ul class="flinks"><li>🇮🇳 India News</li><li>🏴 Karnataka</li><li>📱 Technology</li><li>🏏 Sports</li><li>🎬 Cinema</li></ul></div>
+      <div><div class="footer-col-title">ಉಪಯುಕ್ತ</div><ul class="flinks"><li>💰 Gold Price</li><li>⛽ Petrol Price</li><li>🌤️ Weather</li><li>💼 Jobs</li><li>📈 Market</li></ul></div>
+      <div><div class="footer-col-title">ಕಂಪನಿ</div><ul class="flinks"><li>ನಮ್ಮ ಬಗ್ಗೆ</li><li>Advertise</li><li>Privacy</li><li>Contact</li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 ನ್ಯೂಸ್ ಜಂಕ್ಷನ್ · All Rights Reserved</span><span>🤖 Real-time AI · 🇮🇳 Made in Karnataka · 📡 Hourly Updates</span></div>
+  </div>
+</footer>
+
+<script>
+// ─── STATE ────────────────────────────────────────────────────────────
+const state = {
+  lang: 'kn',
+  allNews: [],
+  filtered: [],
+  currentFilter: 'all',
+  marketData: null,
+  pricesData: null,
+  trendData: null,
+  jobsData: null,
+  top10Data: {},
+  curModalTitle: '',
+  voicePlaying: false,
+  speechInst: null
+};
+
+const today = new Date().toLocaleDateString('en-IN', {weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+// ─── CLOCK ────────────────────────────────────────────────────────────
+function updateClock() {
+  const n = new Date();
+  const h = n.getHours(), m = n.getMinutes().toString().padStart(2,'0');
+  const ap = h >= 12 ? 'PM' : 'AM', h12 = (h % 12) || 12;
+  document.getElementById('clk').textContent = `${h12}:${m} ${ap} IST`;
+}
+setInterval(updateClock, 1000); updateClock();
+
+// ─── CLAUDE API CALL ──────────────────────────────────────────────────
+async function callClaude(prompt, maxTokens = 1200, useSearch = true) {
+  const body = {
+    model: 'claude-sonnet-4-20250514',
+    max_tokens: maxTokens,
+    messages: [{ role: 'user', content: prompt }]
+  };
+  if (useSearch) {
+    body.tools = [{ type: 'web_search_20250305', name: 'web_search' }];
+  }
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  const data = await resp.json();
+  // collect all text blocks
+  const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n');
+  return text;
+}
+
+// ─── FETCH REAL NEWS ─────────────────────────────────────────────────
+async function fetchRealNews() {
+  const lang = state.lang;
+  const isKn = lang === 'kn';
+
+  const prompt = isKn ? `
+Today is ${today}. Search for the TOP 12 BREAKING NEWS stories happening RIGHT NOW in India and World (${today}).
+
+Search for: today's India breaking news, Karnataka news today, IPL cricket today, Bollywood news today, India stock market today, technology news India today.
+
+Return ONLY a JSON array (no markdown, no explanation) with exactly 12 items:
+[
+  {
+    "title": "short punchy title in KANNADA (max 15 words)",
+    "summary": "2-sentence summary in KANNADA explaining what happened",
+    "simple": "1-sentence in KANNADA for a child to understand",
+    "category": "one of: India, Karnataka, Sports, Technology, Entertainment, Business, World",
+    "emoji": "one relevant emoji",
+    "color": "one of: #FFF0EF, #EFF6FF, #F0FFF4, #FDF4FF, #FFFBEB, #FFF7ED",
+    "timeAgo": "how recent e.g. 30 ನಿಮಿಷ ಮುಂಚೆ"
+  }
+]
+Make sure news is from TODAY ${today}. Return ONLY the JSON array.` :
+`Today is ${today}. Search for the TOP 12 BREAKING NEWS stories happening RIGHT NOW in India and World (${today}).
+
+Search for: today's India breaking news, Karnataka news today, IPL cricket today, Bollywood news today, India stock market today, technology news India today.
+
+Return ONLY a JSON array (no markdown, no explanation) with exactly 12 items:
+[
+  {
+    "title": "short punchy title in ENGLISH (max 15 words)",
+    "summary": "2-sentence summary in ENGLISH explaining what happened",
+    "simple": "1-sentence in ENGLISH for a child to understand",
+    "category": "one of: India, Karnataka, Sports, Technology, Entertainment, Business, World",
+    "emoji": "one relevant emoji",
+    "color": "one of: #FFF0EF, #EFF6FF, #F0FFF4, #FDF4FF, #FFFBEB, #FFF7ED",
+    "timeAgo": "how recent e.g. 30 minutes ago"
+  }
+]
+Make sure news is from TODAY ${today}. Return ONLY the JSON array.`;
+
+  const raw = await callClaude(prompt, 2000, true);
+  const match = raw.match(/\[[\s\S]*\]/);
+  if (!match) throw new Error('No JSON');
+  return JSON.parse(match[0]);
+}
+
+// ─── FETCH MARKET DATA ────────────────────────────────────────────────
+async function fetchMarketData() {
+  const prompt = `Search for today's ${today} live prices and return ONLY a JSON object (no markdown):
+{
+  "gold24k": "current price of 24K gold per 10g in India today in ₹",
+  "gold22k": "current price of 22K gold per 10g in India today in ₹",
+  "silver1kg": "current price of silver per kg in India today in ₹",
+  "silver1g": "current price of silver per gram in India today in ₹",
+  "petrolBlr": "today's petrol price in Bangalore in ₹/L",
+  "dieselBlr": "today's diesel price in Bangalore in ₹/L",
+  "sensex": "today's BSE Sensex value",
+  "sensexChange": "+/-% change today",
+  "nifty": "today's NSE Nifty 50 value",
+  "niftyChange": "+/-% change today",
+  "bankNifty": "today's Bank Nifty value",
+  "usdInr": "today's USD to INR rate",
+  "crudeOil": "today's crude oil price in USD/barrel",
+  "weather": "current temperature in Bengaluru in °C",
+  "weatherDesc": "weather description e.g. Partly Cloudy",
+  "humidity": "humidity % in Bengaluru",
+  "windSpeed": "wind speed in Bengaluru km/h",
+  "tempHigh": "today's high temperature in Bengaluru"
+}
+Return ONLY the JSON object.`;
+  const raw = await callClaude(prompt, 800, true);
+  const match = raw.match(/\{[\s\S]*\}/);
+  if (!match) throw new Error('No JSON');
+  return JSON.parse(match[0]);
+}
+
+// ─── FETCH TRENDING + JOBS ────────────────────────────────────────────
+async function fetchTrendingAndJobs() {
+  const isKn = state.lang === 'kn';
+  const prompt = `Today is ${today}. Search for trending topics in India today and recent job openings.
+
+Return ONLY a JSON object (no markdown):
+{
+  "trends": ["#trending1", "#trending2", "#trending3", "#trending4", "#trending5", "#trending6", "#trending7", "#trending8"],
+  "jobs": [
+    {"title": "job title", "org": "organization and location", "tags": ["tag1", "tag2"], "types": ["", ""]},
+    {"title": "job title", "org": "organization and location", "tags": ["Govt", "Fresher"], "types": ["g", ""]},
+    {"title": "job title", "org": "organization and location", "tags": ["WFH", "tag2"], "types": ["w", ""]},
+    {"title": "job title", "org": "organization and location", "tags": ["IT", "tag2"], "types": ["", ""]}
+  ]
+}
+${isKn ? 'Use Kannada for job titles and trend hashtags where appropriate.' : ''}
+Return ONLY the JSON object.`;
+  const raw = await callClaude(prompt, 600, true);
+  const match = raw.match(/\{[\s\S]*\}/);
+  if (!match) throw new Error('No JSON');
+  return JSON.parse(match[0]);
+}
+
+// ─── FETCH TOP 10 ─────────────────────────────────────────────────────
+async function fetchTop10(category) {
+  if (state.top10Data[category]) return state.top10Data[category];
+  const isKn = state.lang === 'kn';
+  const catMap = { news:'breaking news in India', cricket:'IPL and cricket matches', movies:'Bollywood Kannada Telugu movies OTT', tech:'technology gadgets AI news', facts:'interesting world facts science space' };
+  const prompt = `Today is ${today}. Search for the top 10 most important/trending ${catMap[category]} right now.
+
+Return ONLY a JSON array of 10 strings (${isKn ? 'in Kannada' : 'in English'}), no markdown:
+["item 1", "item 2", ..., "item 10"]
+Each item should be a short punchy headline (max 10 words).`;
+  const raw = await callClaude(prompt, 500, true);
+  const match = raw.match(/\[[\s\S]*\]/);
+  if (!match) return [];
+  const result = JSON.parse(match[0]);
+  state.top10Data[category] = result;
+  return result;
+}
+
+// ─── FETCH SECTION NEWS ───────────────────────────────────────────────
+async function fetchSectionNews(section, count = 3) {
+  const isKn = state.lang === 'kn';
+  const prompt = `Today is ${today}. Search for the latest ${section} news from today.
+
+Return ONLY a JSON array of ${count} items (no markdown):
+[
+  {
+    "title": "short title in ${isKn ? 'KANNADA' : 'ENGLISH'} (max 12 words)",
+    "emoji": "relevant emoji",
+    "color": "one hex: #FFF0EF or #EFF6FF or #F0FFF4 or #FDF4FF or #FFFBEB"
+  }
+]
+Return ONLY the JSON array.`;
+  const raw = await callClaude(prompt, 500, true);
+  const match = raw.match(/\[[\s\S]*\]/);
+  if (!match) return [];
+  return JSON.parse(match[0]);
+}
+
+// ─── RENDER HERO ──────────────────────────────────────────────────────
+function renderHero(news) {
+  if (!news || !news.length) return;
+  const main = news[0];
+  const others = news.slice(1, 3);
+  const exLbl = state.lang === 'kn' ? '🤖 AI ವಿವರಣೆ' : '🤖 AI Explain';
+  const shLbl = state.lang === 'kn' ? '📲 ಶೇರ್' : '📲 Share';
+
+  let h = `<div class="hcard main" onclick="openModal(${0})">
+    <div class="himg" style="background:linear-gradient(135deg,${main.color},#fff)">
+      <span style="font-size:80px">${main.emoji}</span>
+    </div>
+    <div class="hbody">
+      <span class="ctag c-${catClass(main.category)}">${main.category}</span>
+      <div class="htitle">${main.title}</div>
+      <div class="hsum">${main.summary}</div>
+      <div class="hfooter">
+        <span>⏱ ${main.timeAgo}</span>
+        <div style="display:flex;gap:8px">
+          <button class="aibtn" onclick="event.stopPropagation();openModal(0)">${exLbl}</button>
+          <button class="wabtn" onclick="event.stopPropagation();doWA('${esc(main.title)}')">${shLbl}</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+
+  others.forEach((s, i) => {
+    h += `<div class="hcard" onclick="openModal(${i + 1})">
+      <div class="himg" style="background:linear-gradient(135deg,${s.color},#fff)">
+        <span style="font-size:60px">${s.emoji}</span>
+      </div>
+      <div class="hbody">
+        <span class="ctag c-${catClass(s.category)}">${s.category}</span>
+        <div class="htitle">${s.title}</div>
+        <div class="hfooter">
+          <span>⏱ ${s.timeAgo}</span>
+          <button class="aibtn" onclick="event.stopPropagation();openModal(${i + 1})">${exLbl}</button>
+        </div>
+      </div>
+    </div>`;
+  });
+
+  document.getElementById('heroGrid').innerHTML = h;
+}
+
+// ─── RENDER NEWS LIST ─────────────────────────────────────────────────
+function renderNewsList(filter = 'all') {
+  const news = filter === 'all' ? state.allNews : state.allNews.filter(n => n.category === filter);
+  const exLbl = state.lang === 'kn' ? '🤖 AI ವಿವರಣೆ' : '🤖 AI Explain';
+  if (!news.length) {
+    document.getElementById('newsList').innerHTML = `<div style="text-align:center;padding:40px;color:var(--muted)">ಸುದ್ದಿ ಲೋಡ್ ಆಗುತ್ತಿದೆ...</div>`;
+    return;
+  }
+  let h = '';
+  news.forEach((n, i) => {
+    h += `<div class="nitem" onclick="openModal(${state.allNews.indexOf(n)})">
+      <div class="nthumb" style="background:${n.color}"><span>${n.emoji}</span></div>
+      <div>
+        <span class="ctag c-${catClass(n.category)}" style="margin-bottom:5px">${n.category}</span>
+        <div class="ntitle">${n.title}</div>
+        <div class="nmeta">
+          <span class="ntime">⏱ ${n.timeAgo}</span>
+          <button class="aibtn" onclick="event.stopPropagation();openModal(${state.allNews.indexOf(n)})">${exLbl}</button>
+        </div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('newsList').innerHTML = h;
+}
+
+// ─── RENDER GRID ──────────────────────────────────────────────────────
+function renderGrid(id, items) {
+  if (!items || !items.length) return;
+  let h = '';
+  items.forEach(item => {
+    h += `<div class="ccard" onclick="openCustomModal('${esc(item.title)}')">
+      <div class="cimg" style="background:linear-gradient(135deg,${item.color},#fff)"><span>${item.emoji}</span></div>
+      <div class="cbody"><div class="ctxt">${item.title}</div></div>
+    </div>`;
+  });
+  document.getElementById(id).innerHTML = h;
+}
+
+// ─── RENDER MARKET ────────────────────────────────────────────────────
+function renderMarket(d) {
+  if (!d) return;
+  // Utility strip
+  document.getElementById('ugold').innerHTML = `${d.gold24k} <span class="uchg up">▲</span>`;
+  document.getElementById('usilv').innerHTML = d.silver1kg;
+  document.getElementById('upetrol').textContent = d.petrolBlr;
+  document.getElementById('udiesel').textContent = d.dieselBlr;
+  document.getElementById('usensex').innerHTML = `${d.sensex} <span class="uchg up">${d.sensexChange||''}</span>`;
+  document.getElementById('unifty').innerHTML = `${d.nifty} <span class="uchg">${d.niftyChange||''}</span>`;
+  document.getElementById('uweather').textContent = `${d.weather}°C ${d.weatherDesc||''}`;
+  document.getElementById('uusd').textContent = `₹${d.usdInr}`;
+
+  // Weather widget
+  const temp = parseFloat(d.weather) || 0;
+  const ico = temp > 35 ? '☀️' : temp > 28 ? '⛅' : temp > 20 ? '🌤️' : '🌧️';
+  document.getElementById('wico').textContent = ico;
+  document.getElementById('wtemp').textContent = `${d.weather}°`;
+  document.getElementById('wdet').innerHTML = `Bengaluru<br>${d.weatherDesc||''}<br>Feels like ${Math.round(temp+2)}°C`;
+  document.getElementById('whumid').textContent = d.humidity||'--';
+  document.getElementById('wwind').textContent = d.windSpeed||'--';
+  document.getElementById('whigh').textContent = d.tempHigh ? `${d.tempHigh}°` : '--';
+
+  // Gold/Silver
+  document.getElementById('priceGrid').innerHTML = `
+    <div class="pbox"><div class="pmetal">Gold 24K</div><div class="pprice pgold">${d.gold24k||'--'}</div><div class="psub">per 10g</div></div>
+    <div class="pbox"><div class="pmetal">Gold 22K</div><div class="pprice pgold">${d.gold22k||'--'}</div><div class="psub">per 10g</div></div>
+    <div class="pbox"><div class="pmetal">Silver</div><div class="pprice psilv">${d.silver1kg||'--'}</div><div class="psub">per kg</div></div>
+    <div class="pbox"><div class="pmetal">Silver 1g</div><div class="pprice psilv">${d.silver1g||'--'}</div><div class="psub">per gram</div></div>`;
+
+  // Fuel
+  document.getElementById('fuelBox').innerHTML = `
+    <div class="fuelrow"><div><div class="fuelname">🔴 Petrol</div><div class="fuelcity">Bengaluru</div></div><div class="fuelprice" style="color:#C0392B">${d.petrolBlr||'--'}</div></div>
+    <div class="fuelrow"><div><div class="fuelname">🟡 Diesel</div><div class="fuelcity">Bengaluru</div></div><div class="fuelprice" style="color:#E67E22">${d.dieselBlr||'--'}</div></div>
+    <div class="fuelrow"><div><div class="fuelname">🟢 CNG</div><div class="fuelcity">Bengaluru</div></div><div class="fuelprice" style="color:#27AE60">~₹86.50</div></div>`;
+
+  // Market
+  document.getElementById('ms1').textContent = `${d.sensex} ${d.sensexChange||''}`;
+  document.getElementById('ms2').textContent = `${d.nifty} ${d.niftyChange||''}`;
+  document.getElementById('ms3').textContent = d.bankNifty||'--';
+  document.getElementById('ms4').textContent = `₹${d.usdInr||'--'}`;
+  document.getElementById('ms5').textContent = `$${d.crudeOil||'--'}`;
+}
+
+// ─── RENDER TRENDING + JOBS ───────────────────────────────────────────
+function renderTrending(data) {
+  if (!data) return;
+  let h = '';
+  (data.trends || []).forEach(t => { h += `<div class="trtag">${t}</div>`; });
+  document.getElementById('trendBox').innerHTML = h;
+
+  h = '';
+  (data.jobs || []).forEach(j => {
+    let tags = '';
+    (j.tags||[]).forEach((t, i) => { tags += `<span class="jtag ${(j.types||[])[i]||''}">${t}</span>`; });
+    h += `<div class="jobitem"><div class="jobtitle">${j.title}</div><div class="jobsub">${j.org}</div><div class="jobtags">${tags}</div></div>`;
+  });
+  document.getElementById('jobsBox').innerHTML = h;
+}
+
+// ─── RENDER TOP 10 ────────────────────────────────────────────────────
+function renderTop10(items) {
+  if (!items || !items.length) { document.getElementById('top10box').innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted)">Loading...</div>'; return; }
+  let h = '<div class="t10list">';
+  items.forEach((item, i) => {
+    h += `<div class="t10item"><div class="t10num">${String(i+1).padStart(2,'0')}</div><div class="t10txt">${item}</div></div>`;
+  });
+  h += '</div>';
+  document.getElementById('top10box').innerHTML = h;
+}
+
+// ─── TICKER UPDATE ────────────────────────────────────────────────────
+function updateTicker(news) {
+  if (!news || !news.length) return;
+  const items = news.map(n => `<span class="ti">${n.title}</span>`);
+  const doubled = [...items, ...items].join('');
+  document.getElementById('tickerInner').innerHTML = doubled;
+}
+
+// ─── MODAL ────────────────────────────────────────────────────────────
+async function openModal(idx) {
+  const story = state.allNews[idx];
+  if (!story) return;
+  state.curModalTitle = story.title;
+  document.getElementById('mTitle').textContent = story.title;
+  document.getElementById('modal').classList.add('open');
+  document.getElementById('mSimple').style.display = 'none';
+  document.getElementById('mSum').innerHTML = '<div class="dots"><span></span><span></span><span></span></div>';
+  const isKn = state.lang === 'kn';
+  const simLbl = isKn ? '📖 ಸರಳ ಭಾಷೆಯಲ್ಲಿ' : '📖 In Simple Words';
+  document.getElementById('mSimLbl').textContent = simLbl;
+
+  const prompt = isKn
+    ? `"${story.title}" ಈ ಸುದ್ದಿ ಬಗ್ಗೆ ಇಂದು (${today}) ಏನು ನಡೆಯಿತು ಎಂದು ಹುಡುಕಿ. 80-100 ಪದಗಳ ಕನ್ನಡ ಸಾರಾಂಶ ಬರೆಯಿರಿ. ನಂತರ "ಸರಳ:" ಎಂದು 25 ಪದಗಳಲ್ಲಿ ಮಕ್ಕಳಿಗೂ ಅರ್ಥವಾಗುವ ವಿವರಣೆ ಕೊಡಿ.`
+    : `Search for the latest update on "${story.title}" (today ${today}). Write an 80-100 word updated English summary. Then write "Simple:" and give a 25-word explanation anyone can understand.`;
+
+  try {
+    const raw = await callClaude(prompt, 400, true);
+    const key = isKn ? 'ಸರಳ:' : 'Simple:';
+    const parts = raw.split(key);
+    document.getElementById('mSum').textContent = parts[0].trim();
+    if (parts[1]) {
+      document.getElementById('mSimTxt').textContent = parts[1].trim();
+      document.getElementById('mSimple').style.display = 'block';
+    }
+  } catch(e) {
+    document.getElementById('mSum').textContent = story.summary;
+    document.getElementById('mSimTxt').textContent = story.simple || '';
+    document.getElementById('mSimple').style.display = 'block';
+  }
+}
+
+async function openCustomModal(title) {
+  state.curModalTitle = title;
+  document.getElementById('mTitle').textContent = title;
+  document.getElementById('modal').classList.add('open');
+  document.getElementById('mSimple').style.display = 'none';
+  document.getElementById('mSum').innerHTML = '<div class="dots"><span></span><span></span><span></span></div>';
+  const isKn = state.lang === 'kn';
+  const prompt = isKn
+    ? `"${title}" ಬಗ್ಗೆ ಇಂದು (${today}) ಇತ್ತೀಚಿನ ಮಾಹಿತಿ ಹುಡುಕಿ. 70 ಪದಗಳ ಕನ್ನಡ ಸಾರಾಂಶ ಬರೆಯಿರಿ. ನಂತರ "ಸರಳ:" ಎಂದು 20 ಪದಗಳ ಸರಳ ವಿವರಣೆ.`
+    : `Search for latest info on "${title}" today (${today}). Write 70-word English summary. Then "Simple:" and 20-word plain explanation.`;
+  try {
+    const raw = await callClaude(prompt, 350, true);
+    const key = isKn ? 'ಸರಳ:' : 'Simple:';
+    const parts = raw.split(key);
+    document.getElementById('mSum').textContent = parts[0].trim();
+    if (parts[1]) { document.getElementById('mSimTxt').textContent = parts[1].trim(); document.getElementById('mSimple').style.display = 'block'; }
+  } catch(e) { document.getElementById('mSum').textContent = 'Unable to load. Please try again.'; }
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modal')) {
+    document.getElementById('modal').classList.remove('open');
+  }
+}
+
+// ─── VOICE ────────────────────────────────────────────────────────────
+function toggleVoice() {
+  if (state.voicePlaying) {
+    window.speechSynthesis.cancel(); state.voicePlaying = false; document.getElementById('vbtn').textContent = '🔊';
+  } else {
+    if (!window.speechSynthesis || !state.allNews.length) return;
+    const txt = state.allNews.slice(0, 5).map(n => n.title + '. ' + n.summary).join(' ... ');
+    state.speechInst = new SpeechSynthesisUtterance(txt);
+    state.speechInst.lang = state.lang === 'kn' ? 'kn-IN' : 'en-IN';
+    state.speechInst.rate = 0.9;
+    state.speechInst.onend = () => { state.voicePlaying = false; document.getElementById('vbtn').textContent = '🔊'; };
+    window.speechSynthesis.speak(state.speechInst);
+    state.voicePlaying = true; document.getElementById('vbtn').textContent = '⏹️';
+  }
+}
+
+// ─── SHARE ────────────────────────────────────────────────────────────
+function doWA(title) {
+  window.open(`https://wa.me/?text=${encodeURIComponent('📰 ' + title + '\n\n📲 newsjunction.in')}`, '_blank');
+}
+function doShareWA() { doWA(state.curModalTitle); }
+
+// ─── FILTER ───────────────────────────────────────────────────────────
+function filterCat(cat, el) {
+  event && event.preventDefault && event.preventDefault();
+  state.currentFilter = cat;
+  document.querySelectorAll('.navlink').forEach(l => l.classList.remove('on'));
+  if (el) el.classList.add('on');
+  renderNewsList(cat);
+  document.getElementById('newsList').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function filterTab(cat, btn) {
+  document.querySelectorAll('#catTabs .tabBtn').forEach(b => b.classList.remove('tabbtn-active'));
+  btn.classList.add('tabbtn-active');
+  renderNewsList(cat);
+}
+
+async function loadTop10(cat, btn) {
+  document.querySelectorAll('#t10tabs .tabBtn').forEach(b => b.classList.remove('tabbtn-active'));
+  btn.classList.add('tabbtn-active');
+  document.getElementById('top10box').innerHTML = '<div class="dots" style="padding:20px;justify-content:center"><span></span><span></span><span></span></div>';
+  const items = await fetchTop10(cat);
+  renderTop10(items);
+}
+
+// ─── LANG SWITCH ──────────────────────────────────────────────────────
+function setLang(lang, btn) {
+  state.lang = lang;
+  state.top10Data = {};
+  document.querySelectorAll('.lbtn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  refreshNews();
+}
+
+// ─── REFRESH ─────────────────────────────────────────────────────────
+async function refreshNews() {
+  document.getElementById('lastUpdated').textContent = state.lang === 'kn' ? 'ಅಪ್‌ಡೇಟ್ ಆಗುತ್ತಿದೆ...' : 'Refreshing...';
+  try {
+    const news = await fetchRealNews();
+    state.allNews = news;
+    renderHero(news);
+    renderNewsList(state.currentFilter);
+    updateTicker(news);
+    const now = new Date();
+    document.getElementById('lastUpdated').textContent = state.lang === 'kn'
+      ? `${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')} ಅಪ್‌ಡೇಟ್`
+      : `Updated ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
+  } catch(e) {
+    document.getElementById('lastUpdated').textContent = 'Retry ↻';
+  }
+}
+
+// ─── HELPERS ─────────────────────────────────────────────────────────
+function catClass(cat) {
+  const m = { India:'pol', Karnataka:'pol', Politics:'pol', Technology:'tec', Sports:'spo', Entertainment:'ent', Business:'bus', World:'wor', Viral:'vir' };
+  return m[cat] || 'wor';
+}
+function esc(s) { return (s||'').replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
+
+// ─── BOOT ─────────────────────────────────────────────────────────────
+async function boot() {
+  const msgs = [
+    '🔍 Scanning Indian news sources...',
+    '📡 Fetching Karnataka & India breaking news...',
+    '💰 Loading gold, petrol & market prices...',
+    '🤖 AI summarizing in Kannada & English...',
+    '✅ Almost ready...'
+  ];
+  let mi = 0;
+  const msgEl = document.getElementById('loadMsg');
+  const msgTimer = setInterval(() => { if (mi < msgs.length) { msgEl.textContent = msgs[mi++]; } }, 1000);
+
+  try {
+    // Fetch news + market in parallel
+    const [news, market, trendJobs] = await Promise.all([
+      fetchRealNews(),
+      fetchMarketData(),
+      fetchTrendingAndJobs()
+    ]);
+
+    state.allNews = news;
+    state.marketData = market;
+
+    renderHero(news);
+    renderNewsList('all');
+    updateTicker(news);
+    renderMarket(market);
+    renderTrending(trendJobs);
+
+    // Load section grids after main content (non-blocking)
+    Promise.all([
+      fetchSectionNews('Bollywood Kannada Tamil OTT entertainment movies 2025', 3),
+      fetchSectionNews('viral trending stories India social media', 3)
+    ]).then(([ent, viral]) => {
+      renderGrid('entGrid', ent);
+      renderGrid('viralGrid', viral);
+    });
+
+    // Load initial top 10
+    fetchTop10('news').then(items => renderTop10(items));
+
+    const now = new Date();
+    document.getElementById('lastUpdated').textContent = state.lang === 'kn'
+      ? `${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')} ಅಪ್‌ಡೇಟ್`
+      : `Updated ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+  } catch(e) {
+    console.error('Boot error:', e);
+    document.getElementById('lastUpdated').textContent = 'Click to Retry ↻';
+    msgEl.textContent = '⚠️ Error loading. Check console.';
+  }
+
+  clearInterval(msgTimer);
+
+  // Hide loading screen
+  setTimeout(() => {
+    const ls = document.getElementById('loadScreen');
+    ls.classList.add('done');
+    setTimeout(() => ls.style.display = 'none', 700);
+  }, 500);
+
+  // Auto-refresh every 60 minutes
+  setInterval(refreshNews, 60 * 60 * 1000);
+}
+
+boot();
+</script>
+</body>
+</html>
